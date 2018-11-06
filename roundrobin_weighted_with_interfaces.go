@@ -6,9 +6,8 @@ package weighted
 // 	Weight int
 // }
 
-type irrWeighted interface {
+type IrrWeighted interface {
 	Item() interface{}
-
 	Weight() int
 }
 
@@ -17,7 +16,7 @@ type irrWeighted interface {
 // http://kb.linuxvirtualitem.org/wiki/Weighted_Round-Robin_Scheduling
 // http://zh.linuxvirtualitem.org/node/37
 type RRWI struct {
-	items []irrWeighted
+	items []IrrWeighted
 	n     int
 	gcd   int
 	maxW  int
@@ -26,7 +25,7 @@ type RRWI struct {
 }
 
 // Add a weighted item.
-func (w *RRWI) Add(item irrWeighted) {
+func (w *RRWI) Add(item IrrWeighted) {
 	// weighted := &rrWeighted{Item: item, Weight: weight}
 	if item.Weight() > 0 {
 		if w.gcd == 0 {
@@ -72,6 +71,11 @@ func (w *RRWI) Reset() {
 
 // Next returns next selected item.
 func (w *RRWI) Next() interface{} {
+	// fmt.Printf("selecting from state \n")
+	// for k := range w.items {
+	// 	fmt.Printf("%+v \n", w.items[k])
+	// }
+
 	if w.n == 0 {
 		return nil
 	}
